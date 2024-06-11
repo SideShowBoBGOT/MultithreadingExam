@@ -1,7 +1,7 @@
 import os
 import random
 
-procs_num = 1
+procs_num = 5
 numbers = [random.randint(0, 100) for _ in range(1000)]
 numbers_str = ' '.join([f'{n}' for n in numbers])
 

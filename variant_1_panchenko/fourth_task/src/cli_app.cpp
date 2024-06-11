@@ -14,7 +14,8 @@ namespace exam_mpi {
 		const auto chunk_size = vec.size() / comm_size(world);
 
 		const auto start_shift = world.rank() * chunk_size;
-		const auto end_shift = std::min(start_shift + chunk_size, vec.size());
+		const auto end_shift = (world.rank() == (world.size() - 1)) ? vec.size() : std::min(start_shift + chunk_size, vec.size());
+
 
 		const auto start_it = std::next(std::cbegin(vec), static_cast<long>(start_shift));
 		const auto end_it = std::next(std::cbegin(vec), static_cast<long>(end_shift));
