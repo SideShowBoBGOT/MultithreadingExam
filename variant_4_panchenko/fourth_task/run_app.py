@@ -1,8 +1,8 @@
 import os
 import random
 
-procs_num = 1
-numbers = [random.randint(0, 100) for _ in range(1000)]
+procs_num = 3
+numbers = [random.randint(0, 100) for _ in range(4)]
 numbers_str = ' '.join([f'{n}' for n in numbers])
 
 print('Sum in MPI:')
