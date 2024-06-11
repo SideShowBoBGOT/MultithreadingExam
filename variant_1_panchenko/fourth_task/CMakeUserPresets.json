@@ -1,9 +1,0 @@
-{
-    "version": 4,
-    "vendor": {
-        "conan": {}
-    },
-    "include": [
-        "/home/sideshowbobgot/university/MultithreadingExam/variant_1_panchenko/fourth_task/conan_external/generators/CMakePresets.json"
-    ]
-}
