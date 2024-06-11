@@ -32,6 +32,8 @@ int main(int argc, char** argv) {
     int* global_array = NULL;
     int* local_array = NULL;
     int local_size;
+    int first_element;
+    int* first_elements;
 
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -48,7 +50,15 @@ int main(int argc, char** argv) {
     local_array = (int*)malloc(local_size * sizeof(int));
     MPI_Scatter(global_array, local_size, MPI_INT, local_array, local_size, MPI_INT, 0, MPI_COMM_WORLD);
     sort(local_array, local_size);
-    printf("Process %d: %d \n", rank, local_array[0]);
+    first_element = local_array[0];
+
+    first_elements = (int*) malloc(size * sizeof(int));
+    MPI_Gather(&first_element, 1, MPI_INT, first_elements, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    if (rank == 0) {
+        for (int i = 0; i < size; i++) {
+            printf("%d \n", first_elements[i]);
+        }
+    }
     free(local_array);
     if (rank == 0) {
         free(global_array);
