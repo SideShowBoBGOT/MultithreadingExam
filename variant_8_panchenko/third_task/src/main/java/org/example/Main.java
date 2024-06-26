@@ -3,6 +3,7 @@ package org.example;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
@@ -10,7 +11,7 @@ import java.util.concurrent.RecursiveTask;
 public class Main {
 
     private static class LengthTask extends RecursiveTask<Integer> {
-        private static final int THRESHOLD = 1000;
+        private static final int THRESHOLD = 400;
         private final List<String> words;
         private final int start;
         private final int end;
@@ -47,11 +48,15 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        String filePath = "wiki-100k.txt";
-        final var words = Files.readAllLines(Paths.get(filePath));
+        String[] fileNames = {"1.txt", "2.txt"};
+        List<String> all_words = new ArrayList<>();
+        for(var fileName : fileNames) {
+            final var words = Files.readAllLines(Paths.get(fileName));
+            all_words.addAll(words);
+        }
         final var pool = ForkJoinPool.commonPool();
-        final var totalLength = pool.invoke(new LengthTask(words, 0, words.size()));
-        double averageLength = (double) totalLength / (double) words.size();
+        final var totalLength = pool.invoke(new LengthTask(all_words, 0, all_words.size()));
+        double averageLength = (double) totalLength / (double) all_words.size();
         System.out.println("Average word length: " + averageLength);
     }
 
